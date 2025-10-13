@@ -1,5 +1,3 @@
-﻿// Program.cs
-
 public class Program
 {
     private static readonly OrderRepository _repo = new OrderRepository();
@@ -9,7 +7,6 @@ public class Program
     {
         Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-        // Главный цикл меню
         while (true)
         {
             Console.WriteLine("\n===================================");
@@ -54,7 +51,6 @@ public class Program
         }
     }
 
-    // --- МЕТОДЫ UI ---
 
     private static void ViewProfile()
     {
@@ -114,7 +110,6 @@ public class Program
         }
     }
 
-    // --- МЕТОД: Оформление нового заказа (логика из предыдущего ответа) ---
     private static void ProcessNewOrder()
     {
         Console.WriteLine("\n--- Адрес доставки ---");
@@ -183,7 +178,6 @@ public class Program
             Console.WriteLine($"Добавлено: {quantity} x {dish.Name}. Всего позиций в заказе: {orderItems.Count}");
         }
 
-        // 4. Оформление заказа
         if (orderItems.Any())
         {
             double finalAmount = orderItems.Sum(i => i.Quantity * i.UnitPrice);
@@ -218,7 +212,6 @@ public class Program
         }
     }
 
-    // Вспомогательный метод для ввода целых чисел
     private static int ReadIntInput(string prompt)
     {
         Console.Write(prompt);
@@ -230,3 +223,4 @@ public class Program
     }
 
 }
+
