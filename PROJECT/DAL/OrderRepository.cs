@@ -1,14 +1,9 @@
-﻿// OrderRepository.cs
-
 using Microsoft.Data.Sqlite;
 using System.Data;
 
 public class OrderRepository
 {
-    // Убедитесь, что ConnectionString корректен для вашего файла БД
     private const string ConnectionString = "Data Source=FoodDelivery.db;";
-
-    // --- МЕТОДЫ ПОЛУЧЕНИЯ ДАННЫХ ДЛЯ ОФОРМЛЕНИЯ ЗАКАЗА ---
 
     public List<Restaurant> GetRestaurants()
     {
@@ -64,7 +59,6 @@ public class OrderRepository
         return dishes;
     }
 
-    // --- МЕТОД: ОФОРМЛЕНИЕ ЗАКАЗА (ТРАНЗАКЦИЯ) ---
     public int PlaceOrder(int clientId, int restaurantId, string deliveryAddress, List<OrderItem> items)
     {
         if (!items.Any()) return -1;
@@ -123,7 +117,6 @@ public class OrderRepository
         }
     }
 
-    // --- НОВЫЙ МЕТОД: ПОЛУЧЕНИЕ ПРОФИЛЯ КЛИЕНТА ---
     public Client GetClient(int clientId)
     {
         Client client = null;
@@ -154,7 +147,6 @@ public class OrderRepository
     }
 
 
-    // --- НОВЫЙ МЕТОД: ПОЛУЧЕНИЕ СПИСКА ЗАКАЗОВ КЛИЕНТА ---
     public List<OrderSummary> GetClientOrders(int clientId)
     {
         var orders = new List<OrderSummary>();
@@ -194,4 +186,5 @@ public class OrderRepository
         }
         return orders;
     }
+
 }
