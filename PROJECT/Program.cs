@@ -3,7 +3,6 @@
 public class Program
 {
     private static readonly OrderRepository _repo = new OrderRepository();
-    // Используем тестовый ID клиента, который вы создали в скрипте заполнения
     private const int TEST_CLIENT_ID = 1;
 
     public static void Main(string[] args)
@@ -229,4 +228,5 @@ public class Program
         }
         return -1;
     }
+
 }
