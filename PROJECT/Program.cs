@@ -192,13 +192,13 @@ public class Program
                 if (newOrderId > 0)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine($"\n✅ Заказ №{newOrderId} успешно оформлен!");
+                    Console.WriteLine($"\nЗаказ №{newOrderId} успешно оформлен!");
                     Console.WriteLine($"Текущий статус: Новый.");
                     Console.ResetColor();
                 }
                 else
                 {
-                    Console.WriteLine("❌ Не удалось оформить заказ.");
+                    Console.WriteLine("Не удалось оформить заказ.");
                 }
             }
             else
@@ -223,4 +223,5 @@ public class Program
     }
 
 }
+
 
