@@ -1,5 +1,3 @@
-﻿// --- Client.cs ---
-
 public class Client
 {
     public int ClientId { get; set; }
@@ -10,4 +8,5 @@ public class Client
     public string Apartment { get; set; }
 
     public string FullAddress => $"{Street}, д. {Building}" + (string.IsNullOrWhiteSpace(Apartment) ? "" : $", кв. {Apartment}");
+
 }
