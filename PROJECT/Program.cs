@@ -1,5 +1,3 @@
-﻿// --- Program.cs ---
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,7 +60,6 @@ public class Program
         }
     }
 
-    // --- МЕТОД: Редактирование адреса (НОВЫЙ) ---
     private static void EditDeliveryAddress()
     {
         var client = _repo.GetClient(TEST_CLIENT_ID);
@@ -85,7 +82,6 @@ public class Program
 
         Console.Write($"Введите новую квартиру (текущая: {client.Apartment ?? "нет"}, можно оставить пустым): ");
         string apartment = Console.ReadLine();
-        // Если Apartment оставлен пустым, мы передаем его как пустую строку, чтобы он записался как NULL в БД
         if (string.IsNullOrWhiteSpace(apartment)) apartment = null;
 
 
@@ -95,7 +91,6 @@ public class Program
             return;
         }
 
-        // Проверка на реальные изменения
         if (street == client.Street && building == client.Building && apartment == client.Apartment)
         {
             Console.WriteLine("Изменений не обнаружено.");
@@ -104,17 +99,15 @@ public class Program
 
         _repo.UpdateClientAddress(TEST_CLIENT_ID, street, building, apartment);
 
-        // Создаем временный объект для вывода нового адреса
         var newClient = new Client { Street = street, Building = building, Apartment = apartment };
 
         Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine($"\n✅ Адрес успешно обновлен!");
+        Console.WriteLine($"\n Адрес успешно обновлен!");
         Console.WriteLine($"Новый адрес: {newClient.FullAddress}");
         Console.ResetColor();
     }
 
 
-    // --- МЕТОД: Оформление нового заказа (ОБНОВЛЕНО) ---
     private static void ProcessNewOrder()
     {
         // 1. Получение адреса доставки из профиля
@@ -128,7 +121,7 @@ public class Program
 
         if (string.IsNullOrWhiteSpace(client.Street) || string.IsNullOrWhiteSpace(client.Building))
         {
-            Console.WriteLine($"\n❌ Ошибка: Адрес доставки в профиле ({address}) не полон (нет улицы или дома).");
+            Console.WriteLine($"\n Ошибка: Адрес доставки в профиле ({address}) не полон (нет улицы или дома).");
             Console.WriteLine("Пожалуйста, сначала используйте меню '4. Редактировать адрес доставки'.");
             return;
         }
@@ -210,12 +203,12 @@ public class Program
                 if (newOrderId > 0)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine($"\n✅ Заказ №{newOrderId} успешно оформлен! Текущий статус: Новый.");
+                    Console.WriteLine($"\n Заказ №{newOrderId} успешно оформлен! Текущий статус: Новый.");
                     Console.ResetColor();
                 }
                 else
                 {
-                    Console.WriteLine("❌ Не удалось оформить заказ.");
+                    Console.WriteLine(" Не удалось оформить заказ.");
                 }
             }
             else
@@ -229,7 +222,6 @@ public class Program
         }
     }
 
-    // --- МЕТОДЫ УПРАВЛЕНИЯ ЗАКАЗАМИ (БЕЗ ИЗМЕНЕНИЙ) ---
 
     private static void TrackOrders(string initialSearchTerm)
     {
@@ -305,7 +297,7 @@ public class Program
 
         if (order.StatusId != 1)
         {
-            Console.WriteLine($"⚠️ Редактирование невозможно. Заказ находится в статусе: {order.StatusName}.");
+            Console.WriteLine($" Редактирование невозможно. Заказ находится в статусе: {order.StatusName}.");
             return;
         }
 
@@ -328,7 +320,7 @@ public class Program
         {
             _repo.UpdateOrderDetails(orderId, newStatusId, newAddress);
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"\n✅ Заказ №{orderId} успешно обновлен!");
+            Console.WriteLine($"\n Заказ №{orderId} успешно обновлен!");
             Console.ResetColor();
         }
         else
@@ -350,7 +342,7 @@ public class Program
 
         if (order.StatusId != 1 && order.StatusId != 5)
         {
-            Console.WriteLine($"⚠️ Удаление невозможно. Заказ находится в активной стадии: {order.StatusName}.");
+            Console.WriteLine($" Удаление невозможно. Заказ находится в активной стадии: {order.StatusName}.");
             return;
         }
 
@@ -361,7 +353,7 @@ public class Program
         {
             _repo.DeleteOrder(orderId);
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"\n✅ Заказ №{orderId} и все его позиции успешно удалены!");
+            Console.WriteLine($"\n Заказ №{orderId} и все его позиции успешно удалены!");
             Console.ResetColor();
         }
         else
@@ -398,4 +390,5 @@ public class Program
         }
         return -1;
     }
+
 }
