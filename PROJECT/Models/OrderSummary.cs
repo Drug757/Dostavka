@@ -1,5 +1,3 @@
-﻿// --- OrderSummary.cs ---
-
 using System;
 
 public class OrderSummary
@@ -14,4 +12,5 @@ public class OrderSummary
 
     public override string ToString() =>
         $"Заказ №{OrderId} от {DateOrder:dd.MM.yyyy HH:mm} | Ресторан: {RestaurantName} | Сумма: {TotalAmount:C} | СТАТУС: {StatusName}";
+
 }
