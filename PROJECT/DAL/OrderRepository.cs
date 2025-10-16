@@ -1,5 +1,3 @@
-﻿// --- OrderRepository.cs ---
-
 using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
@@ -8,10 +6,7 @@ using System.Linq;
 
 public class OrderRepository
 {
-    // Убедитесь, что эта строка указывает на ваш файл БД
     private const string ConnectionString = "Data Source=FoodDelivery.db;";
-
-    // --- МЕТОДЫ ПОЛУЧЕНИЯ ДАННЫХ ---
 
     public Client GetClient(int clientId)
     {
@@ -34,7 +29,6 @@ public class OrderRepository
                         Email = reader.GetString(2),
                         Street = reader.GetString(3),
                         Building = reader.GetString(4),
-                        // Использование IsDBNull для корректного чтения NULL значений Apartment
                         Apartment = reader.IsDBNull(5) ? null : reader.GetString(5)
                     };
                 }
@@ -117,7 +111,6 @@ public class OrderRepository
         return statuses;
     }
 
-    // --- ПОИСК И СПИСКИ ЗАКАЗОВ ---
 
     public List<OrderSummary> GetClientOrders(int clientId, string searchTerm = null)
     {
@@ -185,9 +178,6 @@ public class OrderRepository
         return orders;
     }
 
-    // --- ОПЕРАЦИИ C КЛИЕНТОМ И ЗАКАЗАМИ ---
-
-    // НОВЫЙ МЕТОД: Редактирование адреса клиента
     public void UpdateClientAddress(int clientId, string street, string building, string apartment)
     {
         string sql = "UPDATE Client SET Street = @Street, Building = @Building, Apartment = @Apartment WHERE Client_Id = @ClientId";
@@ -204,7 +194,6 @@ public class OrderRepository
         }
     }
 
-    // МЕТОД: Оформление заказа
     public int PlaceOrder(int clientId, int restaurantId, string deliveryAddress, List<OrderItem> items)
     {
         if (!items.Any()) return -1;
@@ -263,7 +252,6 @@ public class OrderRepository
         }
     }
 
-    // МЕТОД: Обновление деталей заказа
     public void UpdateOrderDetails(int orderId, int newStatusId, string newAddress)
     {
         string sql = "UPDATE \"Order\" SET Status_Id = @StatusId, Delivery_Address = @Address WHERE Order_Id = @OrderId";
@@ -278,7 +266,6 @@ public class OrderRepository
         }
     }
 
-    // МЕТОД: Удаление заказа
     public void DeleteOrder(int orderId)
     {
         string sql = "DELETE FROM \"Order\" WHERE Order_Id = @OrderId";
@@ -290,4 +277,5 @@ public class OrderRepository
             command.ExecuteNonQuery();
         }
     }
+
 }
