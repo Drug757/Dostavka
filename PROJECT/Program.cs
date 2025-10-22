@@ -1,5 +1,3 @@
-// --- Program.cs (Полный файл) ---
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +17,6 @@ public class Program
 
         while (true)
         {
-            // !!! Очистка консоли перед выводом главного меню !!!
             Console.Clear();
 
             Console.WriteLine("\n===================================");
@@ -121,7 +118,7 @@ public class Program
             var newClient = new Client { Street = street, Building = building, Apartment = apartment };
 
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"\n✅ Адрес успешно обновлен!");
+            Console.WriteLine($"\nАдрес успешно обновлен!");
             Console.WriteLine($"Новый адрес: {newClient.FullAddress}");
             Console.ResetColor();
         }
@@ -145,7 +142,7 @@ public class Program
 
         if (string.IsNullOrWhiteSpace(client.Street) || string.IsNullOrWhiteSpace(client.Building))
         {
-            Console.WriteLine($"\n❌ Ошибка: Адрес доставки в профиле ({address}) не полон (нет улицы или дома).");
+            Console.WriteLine($"\nОшибка: Адрес доставки в профиле ({address}) не полон (нет улицы или дома).");
             Console.WriteLine("Пожалуйста, сначала используйте меню '4. Редактировать адрес доставки'.");
             Console.WriteLine("\nНажмите любую клавишу для продолжения...");
             Console.ReadKey();
@@ -230,12 +227,12 @@ public class Program
                 if (newOrderId > 0)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine($"\n✅ Заказ №{newOrderId} успешно оформлен! Текущий статус: Новый.");
+                    Console.WriteLine($"\nЗаказ №{newOrderId} успешно оформлен! Текущий статус: Новый.");
                     Console.ResetColor();
                 }
                 else
                 {
-                    Console.WriteLine("❌ Не удалось оформить заказ.");
+                    Console.WriteLine("Не удалось оформить заказ.");
                 }
             }
             else
@@ -387,7 +384,7 @@ public class Program
 
         currentSortField = newField;
         Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine($"\n✅ Сортировка обновлена: {GetSortDescription()}");
+        Console.WriteLine($"\nСортировка обновлена: {GetSortDescription()}");
         Console.ResetColor();
 
         Console.WriteLine("\nНажмите любую клавишу для продолжения...");
@@ -405,7 +402,7 @@ public class Program
         }
         else if (order.StatusId != 1)
         {
-            Console.WriteLine($"⚠️ Редактирование невозможно. Заказ находится в статусе: {order.StatusName}.");
+            Console.WriteLine($"Редактирование невозможно. Заказ находится в статусе: {order.StatusName}.");
         }
         else
         {
@@ -427,7 +424,7 @@ public class Program
             {
                 _repo.UpdateOrderDetails(orderId, newStatusId, newAddress);
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"\n✅ Заказ №{orderId} успешно обновлен!");
+                Console.WriteLine($"\nЗаказ №{orderId} успешно обновлен!");
                 Console.ResetColor();
             }
             else
@@ -451,7 +448,7 @@ public class Program
         }
         else if (order.StatusId != 1 && order.StatusId != 5)
         {
-            Console.WriteLine($"⚠️ Удаление невозможно. Заказ находится в активной стадии: {order.StatusName}.");
+            Console.WriteLine($"Удаление невозможно. Заказ находится в активной стадии: {order.StatusName}.");
         }
         else
         {
@@ -462,7 +459,7 @@ public class Program
             {
                 _repo.DeleteOrder(orderId);
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"\n✅ Заказ №{orderId} и все его позиции успешно удалены!");
+                Console.WriteLine($"\nЗаказ №{orderId} и все его позиции успешно удалены!");
                 Console.ResetColor();
             }
             else
@@ -505,4 +502,5 @@ public class Program
         }
         return -1;
     }
+
 }
