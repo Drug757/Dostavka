@@ -32,6 +32,7 @@ public class TestRunner
     // СЦЕНАРИЙ 1: ПРОЦЕСС СОЗДАНИЯ ЗАКАЗА И РАСЧЕТ СУММЫ (PlaceOrder)
     // Цель: Проверить, что заказ создается, а сумма рассчитывается верно.
     // Предусловия: Клиент 1, Ресторан 1, Блюда 1 и 2 существуют.
+    
     public void TestCase_OrderCreationAndTotal()
     {
         Console.WriteLine("\n--- ТЕСТ 1: Создание Заказа и Расчет Суммы ---");
@@ -96,6 +97,7 @@ public class TestRunner
     // СЦЕНАРИЙ 2: ФИЛЬТРАЦИЯ И СОРТИРОВКА (GetClientOrders)
     // Цель: Проверить сортировку по сумме (DESC) и фильтрацию по ID.
     // Предусловия: У Клиента 1 должно быть несколько заказов с разными суммами.
+    
     public void TestCase_FilterAndSortOrders()
     {
         Console.WriteLine("\n--- ТЕСТ 2: Сортировка по Сумме (DESC) и Фильтрация по ID ---");
@@ -157,4 +159,5 @@ public class TestRunner
     }
 
 }
+
 
