@@ -1,12 +1,9 @@
-// --- OrderRepository.cs ---
-
 using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
-// Это перечисление должно быть доступно в Program.cs, поэтому оно вынесено в общий уровень
 public enum OrderSortField
 {
     DateOrder,
@@ -16,10 +13,7 @@ public enum OrderSortField
 
 public class OrderRepository
 {
-    // Строка подключения к вашей SQLite базе данных
     private const string ConnectionString = "Data Source=FoodDelivery.db;";
-
-    // --- МЕТОДЫ ПОЛУЧЕНИЯ ДАННЫХ ---
 
     public Client GetClient(int clientId)
     {
@@ -42,7 +36,6 @@ public class OrderRepository
                         Email = reader.GetString(2),
                         Street = reader.GetString(3),
                         Building = reader.GetString(4),
-                        // Читаем Apartment, обрабатывая NULL
                         Apartment = reader.IsDBNull(5) ? null : reader.GetString(5)
                     };
                 }
@@ -50,8 +43,6 @@ public class OrderRepository
         }
         return client;
     }
-
-    // ... (Методы GetRestaurants, GetDishesByRestaurant, GetOrderStatuses не изменены и пропущены для краткости) ...
 
     public List<Restaurant> GetRestaurants()
     {
@@ -127,8 +118,6 @@ public class OrderRepository
         return statuses;
     }
 
-    // --- ПОИСК И СПИСКИ ЗАКАЗОВ (ОБНОВЛЕНО: добавлены параметры сортировки) ---
-
     public List<OrderSummary> GetClientOrders(
         int clientId,
         string searchTerm = null,
@@ -148,7 +137,6 @@ public class OrderRepository
             WHERE 
                 O.Client_Id = @ClientId";
 
-        // Секция WHERE (Фильтрация/Поиск)
         if (!string.IsNullOrWhiteSpace(searchTerm))
         {
             if (int.TryParse(searchTerm, out int orderId))
@@ -161,7 +149,6 @@ public class OrderRepository
             }
         }
 
-        // СЕКЦИЯ ORDER BY (Сортировка)
         string fieldName = sortField switch
         {
             OrderSortField.OrderId => "O.Order_Id",
@@ -211,8 +198,6 @@ public class OrderRepository
         }
         return orders;
     }
-
-    // --- ОПЕРАЦИИ C КЛИЕНТОМ И ЗАКАЗАМИ ---
 
     public void UpdateClientAddress(int clientId, string street, string building, string apartment)
     {
@@ -313,4 +298,5 @@ public class OrderRepository
             command.ExecuteNonQuery();
         }
     }
+
 }
