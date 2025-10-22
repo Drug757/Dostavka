@@ -1,5 +1,3 @@
-﻿// --- TestRunner.cs ---
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +6,7 @@ using System.Text;
 public class TestRunner
 {
     private readonly OrderRepository _repo;
-    // Используем ID, которые используются в Program.cs
     private const int TEST_CLIENT_ID = 1;
-    // Предполагаем, что ресторан с ID 1 и блюда 1, 2 существуют в тестовых данных
     private const int TEST_RESTAURANT_ID = 1;
 
     public TestRunner(OrderRepository repository)
@@ -33,24 +29,18 @@ public class TestRunner
         Console.WriteLine("\n=== ТЕСТЫ ЗАВЕРШЕНЫ ===");
     }
 
-    // ----------------------------------------------------------------------
     // СЦЕНАРИЙ 1: ПРОЦЕСС СОЗДАНИЯ ЗАКАЗА И РАСЧЕТ СУММЫ (PlaceOrder)
-    // ----------------------------------------------------------------------
-
     // Цель: Проверить, что заказ создается, а сумма рассчитывается верно.
     // Предусловия: Клиент 1, Ресторан 1, Блюда 1 и 2 существуют.
     public void TestCase_OrderCreationAndTotal()
     {
         Console.WriteLine("\n--- ТЕСТ 1: Создание Заказа и Расчет Суммы ---");
 
-        // 1. Подготовка данных
         const string deliveryAddress = "ул. Тест-Адрес, д. 1, кв. 1 (Т1)";
 
         var items = new List<OrderItem>
         {
-            // Блюдо 1: 5 шт * 10.00 = 50.00 (Предполагаем цену 10.00)
             new OrderItem { DishId = 1, Quantity = 5, UnitPrice = 10.00 },
-            // Блюдо 2: 1 шт * 20.00 = 20.00 (Предполагаем цену 20.00)
             new OrderItem { DishId = 2, Quantity = 1, UnitPrice = 20.00 }
         };
         const double expectedTotal = 70.00;
@@ -58,7 +48,6 @@ public class TestRunner
 
         try
         {
-            // 2. Действие: Создание заказа
             newOrderId = _repo.PlaceOrder(TEST_CLIENT_ID, TEST_RESTAURANT_ID, deliveryAddress, items);
         }
         catch (Exception ex)
@@ -69,7 +58,6 @@ public class TestRunner
             return;
         }
 
-        // 3. Проверка 1: Успешное создание и возврат ID
         if (newOrderId > 0)
         {
             Console.ForegroundColor = ConsoleColor.Green;
@@ -83,11 +71,9 @@ public class TestRunner
             return;
         }
 
-        // 4. Проверка 2: Проверка общей суммы и адреса (через GetClientOrders по ID)
         var createdOrders = _repo.GetClientOrders(TEST_CLIENT_ID, newOrderId.ToString());
         var createdOrder = createdOrders.FirstOrDefault();
 
-        // Проверяем 3 вещи: заказ найден, сумма верна, адрес верный.
         if (createdOrder != null && createdOrder.TotalAmount == expectedTotal && createdOrder.DeliveryAddress == deliveryAddress)
         {
             Console.ForegroundColor = ConsoleColor.Green;
@@ -100,7 +86,6 @@ public class TestRunner
         }
 
         Console.ResetColor();
-        // 5. Очистка тестовых данных (ВАЖНО!)
         if (newOrderId > 0)
         {
             _repo.DeleteOrder(newOrderId);
@@ -108,22 +93,18 @@ public class TestRunner
         }
     }
 
-    // ----------------------------------------------------------------------
     // СЦЕНАРИЙ 2: ФИЛЬТРАЦИЯ И СОРТИРОВКА (GetClientOrders)
-    // ----------------------------------------------------------------------
-
     // Цель: Проверить сортировку по сумме (DESC) и фильтрацию по ID.
     // Предусловия: У Клиента 1 должно быть несколько заказов с разными суммами.
     public void TestCase_FilterAndSortOrders()
     {
         Console.WriteLine("\n--- ТЕСТ 2: Сортировка по Сумме (DESC) и Фильтрация по ID ---");
 
-        // 1. Действие 1: Получаем ВСЕ заказы клиента 1 и сортируем по сумме (DESC)
         var orders = _repo.GetClientOrders(
             TEST_CLIENT_ID,
             searchTerm: null,
             sortField: OrderSortField.TotalAmount,
-            isAscending: false); // Сортировка по сумме, убывание (DESC)
+            isAscending: false);
 
         if (!orders.Any())
         {
@@ -131,11 +112,9 @@ public class TestRunner
             return;
         }
 
-        // 2. Проверка 1: Сортировка по Сумме (DESC)
         bool isSortedCorrectly = true;
         for (int i = 0; i < orders.Count - 1; i++)
         {
-            // Проверяем, что текущий элемент больше или равен следующему
             if (orders[i].TotalAmount < orders[i + 1].TotalAmount)
             {
                 isSortedCorrectly = false;
@@ -154,7 +133,6 @@ public class TestRunner
             Console.WriteLine(" 2.1: Ошибка сортировки. Элементы расположены не по убыванию суммы.");
         }
 
-        // 3. Действие 2: Фильтрация по конкретному ID
         var firstOrderId = orders.First().OrderId;
         var filteredOrders = _repo.GetClientOrders(
             TEST_CLIENT_ID,
@@ -162,7 +140,6 @@ public class TestRunner
             OrderSortField.OrderId,
             isAscending: true);
 
-        // 4. Проверка 2: Фильтрация по ID
         bool isFilteredCorrectly = filteredOrders.Count == 1 && filteredOrders.First().OrderId == firstOrderId;
 
         if (isFilteredCorrectly)
@@ -178,4 +155,5 @@ public class TestRunner
 
         Console.ResetColor();
     }
+
 }
