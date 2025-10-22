@@ -19,7 +19,7 @@ public class TestRunner
         Console.OutputEncoding = Encoding.UTF8;
         Console.Clear();
         Console.WriteLine("===================================");
-        Console.WriteLine("=== ЗАПУСК РЕАЛЬНЫХ ИНТЕГРАЦИОННЫХ ТЕСТОВ ===");
+        Console.WriteLine("=== ЗАПУСК ТЕСТОВ ===");
         Console.WriteLine("=== Клиент ID: 1, Ресторан ID: 1 ====");
         Console.WriteLine("===================================");
 
@@ -157,3 +157,4 @@ public class TestRunner
     }
 
 }
+
